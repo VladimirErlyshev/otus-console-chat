@@ -34,6 +34,11 @@ public class ClientHandler {
                         if (message.startsWith("/exit")){
                             sendMessage("/exitok");
                             break;
+                        } else if (message.startsWith("/w")) {
+                            var data = message.split(" ");
+                            if (data[1].equals(username)) {
+                                sendMessage(data[2]);
+                            }
                         }
                         
 
