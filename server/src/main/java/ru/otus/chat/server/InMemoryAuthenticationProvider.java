@@ -30,6 +30,7 @@ public class InMemoryAuthenticationProvider implements AuthenticatedProvider {
         this.users.add(new User("zxc", "zxc", "zxc1"));
         var admin = new User("admin", "ADMIN", "admin1");
         admin.userRole = UserRole.ADMIN;
+        this.users.add(admin);
     }
 
     @Override

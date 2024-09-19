@@ -81,7 +81,7 @@ public class ClientHandler {
                             if (server.getAuthenticatedProvider().isAdmin(this.username)) {
                                 var data = message.split(" ", 2);
                                 if (server.kick(data[1])) {
-                                    sendMessage("Пользователь быд удален из чата");
+                                    sendMessage("Пользователь был удален из чата");
                                 } else {
                                     sendMessage("Пользователя с таким именем не существует");
                                 }
