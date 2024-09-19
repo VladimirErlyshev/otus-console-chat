@@ -85,6 +85,8 @@ public class ClientHandler {
                                 } else {
                                     sendMessage("Пользователя с таким именем не существует");
                                 }
+                            } else {
+                                sendMessage("У вас нет прав администратора");
                             }
                         }
 
