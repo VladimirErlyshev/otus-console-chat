@@ -6,17 +6,16 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler {
-    private Server server;
-    private Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
+    private final Server server;
+    private final Socket socket;
+    private final DataInputStream in;
+    private final DataOutputStream out;
 
     public void setUsername(String username) {
         this.username = username;
     }
 
     private String username;
-    private static int userCount = 0;
 
     public String getUsername() {
         return username;
