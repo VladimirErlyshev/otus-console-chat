@@ -45,7 +45,7 @@ public class ClientHandler {
                                 continue;
                             }
                             if (server.getAuthenticatedProvider()
-                                    .authenticate(this,elements[1], elements[2])){
+                                    .authenticate(this, elements[1], elements[2])) {
                                 break;
                             }
                             continue;
@@ -58,7 +58,7 @@ public class ClientHandler {
                                 continue;
                             }
                             if (server.getAuthenticatedProvider()
-                                    .registration(this,elements[1], elements[2], elements[3])){
+                                    .registration(this, elements[1], elements[2], elements[3])) {
                                 break;
                             }
                             continue;
@@ -67,7 +67,7 @@ public class ClientHandler {
                     sendMessage("Перед работой необходимо пройти аутентификацию командой " +
                             "/auth login password или регистрацию командой /reg login password username");
                 }
-                System.out.println("Клиент "+ username+ " успешно прошел аутентификацию");
+                System.out.println("Клиент " + username + " успешно прошел аутентификацию");
                 //цпкл работы
                 while (true) {
                     String message = in.readUTF();
@@ -75,6 +75,17 @@ public class ClientHandler {
                         if (message.startsWith("/exit")) {
                             sendMessage("/exitok");
                             break;
+                        }
+
+                        if (message.startsWith("/kick")) {
+                            if (server.getAuthenticatedProvider().isAdmin(this.username)) {
+                                var data = message.split(" ", 2);
+                                if (server.kick(data[1])) {
+                                    sendMessage("Пользователь быд удален из чата");
+                                } else {
+                                    sendMessage("Пользователя с таким именем не существует");
+                                }
+                            }
                         }
 
                     } else {
