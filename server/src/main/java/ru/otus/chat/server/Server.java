@@ -40,4 +40,13 @@ public class Server {
             client.sendMessage(message);
         }
     }
+
+    public synchronized void sendPrivateMessage(ClientHandler sender, String recipientName, String message) {
+        for (ClientHandler client : clients) {
+            if (recipientName.equals(client.getUsername())) {
+                client.sendMessage("Сообщение от " + sender.getUsername() + " " + message);
+                return;
+            }
+        }
+    }
 }

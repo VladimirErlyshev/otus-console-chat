@@ -11,6 +11,10 @@ public class ClientHandler {
     private DataInputStream in;
     private DataOutputStream out;
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     private String username;
     private static int userCount = 0;
 
@@ -23,25 +27,28 @@ public class ClientHandler {
         this.socket = socket;
         this.in = new DataInputStream(socket.getInputStream());
         this.out = new DataOutputStream(socket.getOutputStream());
-        userCount++;
-        username = "user" + userCount;
+        sendMessage("Введите имя пользователя:");
+        String inputName = in.readUTF();
+        setUsername(inputName);
         new Thread(() -> {
             try {
                 System.out.println("Клиент подключился ");
                 while (true) {
                     String message = in.readUTF();
                     if (message.startsWith("/")) {
-                        if (message.startsWith("/exit")){
+                        if (message.startsWith("/exit")) {
                             sendMessage("/exitok");
                             break;
                         } else if (message.startsWith("/w")) {
-                            var data = message.split(" ");
-                            if (data[1].equals(username)) {
-                                sendMessage(data[2]);
+                            var data = message.split(" ", 3);
+                            if (data.length != 3) {
+                                sendMessage("Некорректный формат приватного сообщения");
+                            } else {
+                                var recipient = data[1];
+                                var msg = data[2];
+                                server.sendPrivateMessage(this, recipient, msg);
                             }
                         }
-                        
-
                     } else {
                         server.broadcastMessage(username + " : " + message);
                     }
@@ -62,7 +69,7 @@ public class ClientHandler {
         }
     }
 
-    public void disconnect(){
+    public void disconnect() {
         server.unsubscribe(this);
         try {
             in.close();
