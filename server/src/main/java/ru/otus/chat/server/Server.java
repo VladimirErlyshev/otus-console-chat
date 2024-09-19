@@ -56,4 +56,15 @@ public class Server {
         }
         return false;
     }
+
+    public boolean kick(String username) {
+        for (ClientHandler client : clients) {
+            if (client.getUsername().equals(username)) {
+                client.disconnect();
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

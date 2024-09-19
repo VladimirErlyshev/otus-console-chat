@@ -8,11 +8,13 @@ public class InMemoryAuthenticationProvider implements AuthenticatedProvider {
         private String login;
         private String password;
         private String username;
+        private UserRole userRole;
 
         public User(String login, String password, String username) {
             this.login = login;
             this.password = password;
             this.username = username;
+            this.userRole = UserRole.USER;
         }
     }
 
@@ -26,6 +28,20 @@ public class InMemoryAuthenticationProvider implements AuthenticatedProvider {
         this.users.add(new User("qwe", "qwe", "qwe1"));
         this.users.add(new User("asd", "asd", "asd1"));
         this.users.add(new User("zxc", "zxc", "zxc1"));
+        var admin = new User("admin", "ADMIN", "admin1");
+        admin.userRole = UserRole.ADMIN;
+        this.users.add(admin);
+    }
+
+    @Override
+    public boolean isAdmin(String userName) {
+        for (User user : users) {
+            if (user.username.equals(userName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
